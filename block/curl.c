@@ -594,11 +594,11 @@ static int curl_open(BlockDriverState *bs, QDict *options, int flags,
     // Get file size
 
     s->accept_range = false;
-    curl_easy_setopt(state->curl, CURLOPT_NOBODY, 1);
+    curl_easy_setopt(state->curl, CURLOPT_HTTPGET, 1);
     curl_easy_setopt(state->curl, CURLOPT_HEADERFUNCTION,
                      curl_header_cb);
     curl_easy_setopt(state->curl, CURLOPT_HEADERDATA, s);
-    if (curl_easy_perform(state->curl))
+    if (curl_easy_perform(state->curl) != 23)
         goto out;
     curl_easy_getinfo(state->curl, CURLINFO_CONTENT_LENGTH_DOWNLOAD, &d);
     if (d)
